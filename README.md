@@ -1,3 +1,5 @@
-chmod +x after-install-linux.sh
+cd after-install-linux
 
-./after-install-linux.sh
+chmod +x egan-after-linux.sh
+
+./egan-after-linux.sh
