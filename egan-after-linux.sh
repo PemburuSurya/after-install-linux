@@ -54,8 +54,14 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 # Unduh dan instal Anaconda
 echo "Mengunduh dan menginstal Anaconda..."
 cd /tmp
+echo "Mengunduh Anaconda installer..."
 curl https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh --output anaconda.sh
+
+# Berikan izin eksekusi pada installer
 chmod +x anaconda.sh
+
+# Jalankan installer Anaconda
+echo "Menginstal Anaconda..."
 bash anaconda.sh -b -p $HOME/anaconda3
 
 # Cari path anaconda3 atau miniconda3
@@ -65,6 +71,7 @@ CONDA_PATH=$(find $HOME -type d -name "anaconda3" -o -name "miniconda3" 2>/dev/n
 if [[ -n $CONDA_PATH ]]; then
     echo "Menemukan Conda di: $CONDA_PATH"
     echo ". $CONDA_PATH/etc/profile.d/conda.sh" >> ~/.bashrc
+    source ~/.bashrc
     echo "Conda telah ditambahkan ke PATH."
 else
     echo "Conda tidak ditemukan di sistem."
@@ -73,7 +80,6 @@ fi
 
 # Periksa versi Conda
 echo "Memeriksa versi Conda..."
-source ~/.bashrc
 conda --version
 
 # Inisialisasi Conda
