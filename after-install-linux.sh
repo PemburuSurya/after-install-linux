@@ -52,5 +52,57 @@ echo "Menginstal Rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 source $HOME/.cargo/env
 
-# Selesai
-echo "Done Boy."
+# Unduh Anaconda installer
+cd /tmp
+echo "Mengunduh Anaconda installer..."
+curl https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh --output anaconda.sh
+
+# Berikan izin eksekusi pada installer
+chmod +x anaconda.sh
+
+# Jalankan installer Anaconda
+echo "Menginstal Anaconda..."
+bash anaconda.sh -b -p $HOME/anaconda3
+
+# Cari path anaconda3 atau miniconda3
+CONDA_PATH=$(find $HOME -type d -name "anaconda3" -o -name "miniconda3" 2>/dev/null | head -n 1)
+
+# Jika ditemukan, tambahkan ke ~/.bashrc
+if [[ -n $CONDA_PATH ]]; then
+    echo "Menemukan Conda di: $CONDA_PATH"
+    echo ". $CONDA_PATH/etc/profile.d/conda.sh" >> ~/.bashrc
+    source ~/.bashrc
+    echo "Conda telah ditambahkan ke PATH."
+else
+    echo "Conda tidak ditemukan di sistem."
+    exit 1
+fi
+
+# Periksa versi Conda
+echo "Memeriksa versi Conda..."
+conda --version
+
+# Inisialisasi Conda
+echo "Menginisialisasi Conda..."
+conda init bash
+source ~/.bashrc
+
+# Install pip menggunakan Conda
+echo "Menginstal pip menggunakan Conda..."
+conda install pip -y
+
+# Perbarui pip
+echo "Memperbarui pip..."
+pip install --upgrade pip
+
+# Buat lingkungan virtual Python menggunakan Conda
+echo "Membuat lingkungan virtual Python menggunakan Conda..."
+conda create -n myenv python=3.9 -y
+
+# Aktifkan lingkungan virtual
+echo "Mengaktifkan lingkungan virtual..."
+conda activate myenv
+
+echo "Update & Upgrade Done serta menginstal alat-alat pengembangan dan utilitas selesai."
+echo "Instalasi Anaconda selesai dan lingkungan virtual telah diaktifkan."
+
