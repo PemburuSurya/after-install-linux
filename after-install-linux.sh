@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Update dan upgrade sistem
 echo "Memperbarui dan mengupgrade sistem..."
@@ -33,12 +34,12 @@ chmod +x /usr/local/bin/docker-compose
 
 # Tambahkan pengguna saat ini ke grup Docker
 echo "Menambahkan pengguna ke grup Docker..."
-sudo groupadd docker
+sudo groupadd -f docker
 sudo usermod -aG docker $USER
 
 # Instal berbagai alat pengembangan dan utilitas
 echo "Menginstal alat-alat pengembangan dan utilitas..."
-sudo apt install curl install ca-certificates git wget htop tmux jq make gcc tar clang pkg-config libssl-dev ncdu protobuf-compiler npm nodejs flatpak default-jdk aptitude squid apache2-utils iptables iptables-persistent squid openssh-server jq sed -y
+sudo apt install git wget htop tmux jq make gcc tar clang pkg-config libssl-dev ncdu protobuf-compiler npm nodejs flatpak default-jdk aptitude squid apache2-utils iptables iptables-persistent openssh-server jq sed -y
 
 # Instal Visual Studio Code melalui Snap
 echo "Menginstal Visual Studio Code..."
@@ -61,7 +62,8 @@ sudo systemctl start netfilter-persistent
 # Instal Rust menggunakan rustup
 echo "Menginstal Rust..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-source $HOME/.cargo/env
+echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
 
 # Unduh Anaconda installer
 cd /tmp
@@ -73,7 +75,12 @@ chmod +x anaconda.sh
 
 # Jalankan installer Anaconda
 echo "Menginstal Anaconda..."
-bash anaconda.sh -b -p $HOME/anaconda3
+if bash anaconda.sh -b -p $HOME/anaconda3; then
+    echo "Instalasi Anaconda berhasil."
+else
+    echo "Instalasi Anaconda gagal."
+    exit 1
+fi
 
 # Cari path anaconda3 atau miniconda3
 CONDA_PATH=$(find $HOME -type d -name "anaconda3" -o -name "miniconda3" 2>/dev/null | head -n 1)
@@ -98,14 +105,6 @@ echo "Menginisialisasi Conda..."
 conda init bash
 source ~/.bashrc
 
-# Install pip menggunakan Conda
-echo "Menginstal pip menggunakan Conda..."
-conda install pip -y
-
-# Perbarui pip
-echo "Memperbarui pip..."
-pip install --upgrade pip
-
 # Buat lingkungan virtual Python menggunakan Conda
 echo "Membuat lingkungan virtual Python menggunakan Conda..."
 conda create -n myenv python=3.9 -y
@@ -114,6 +113,9 @@ conda create -n myenv python=3.9 -y
 echo "Mengaktifkan lingkungan virtual..."
 conda activate myenv
 
+# Perbarui pip di lingkungan virtual
+echo "Memperbarui pip di lingkungan virtual..."
+pip install --upgrade pip
+
 echo "Update & Upgrade Done serta menginstal alat-alat pengembangan dan utilitas selesai."
 echo "Instalasi Anaconda selesai dan lingkungan virtual telah diaktifkan."
-
