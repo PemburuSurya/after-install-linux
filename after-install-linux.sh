@@ -72,13 +72,14 @@ curl https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh --outpu
 # Berikan izin eksekusi pada installer
 chmod +x anaconda.sh
 
-# Jalankan installer Anaconda
-echo "Menginstal Anaconda..."
-if bash anaconda.sh -b -p $HOME/anaconda3; then
-    echo "Instalasi Anaconda berhasil."
+# Periksa apakah instalasi Anaconda sudah ada
+if [[ -d "$HOME/anaconda3" ]]; then
+    echo "Anaconda sudah terinstal di $HOME/anaconda3."
+    echo "Memperbarui instalasi Anaconda yang sudah ada..."
+    bash anaconda.sh -u -b -p $HOME/anaconda3
 else
-    echo "Instalasi Anaconda gagal."
-    exit 1
+    echo "Menginstal Anaconda..."
+    bash anaconda.sh -b -p $HOME/anaconda3
 fi
 
 # Cari path anaconda3 atau miniconda3
@@ -119,6 +120,6 @@ pip install --upgrade pip
 echo "================================================"
 echo "Instalasi selesai!"
 echo "- Docker dan Docker Compose telah diinstal."
-echo "- Anaconda telah diinstal dan lingkungan virtual 'myenv' telah dibuat."
+echo "- Anaconda telah diinstal/diperbarui dan lingkungan virtual 'myenv' telah dibuat."
 echo "- Rust, Visual Studio Code, dan alat-alat pengembangan lainnya telah diinstal."
 echo "================================================"
