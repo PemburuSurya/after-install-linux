@@ -111,7 +111,13 @@ conda create -n myenv python=3.9 -y
 
 # Aktifkan lingkungan virtual
 echo "Mengaktifkan lingkungan virtual..."
+conda init bash
+source ~/.bashrc
 conda activate myenv
+
+# Instal pip di lingkungan virtual (jika belum terinstal)
+echo "Menginstal pip di lingkungan virtual..."
+conda install pip -y
 
 # Perbarui pip di lingkungan virtual
 echo "Memperbarui pip di lingkungan virtual..."
