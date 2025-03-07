@@ -23,11 +23,12 @@ sudo apt install docker-ce docker-ce-cli containerd.io -y
 
 # Tambahkan pengguna saat ini ke grup Docker
 echo "Menambahkan pengguna ke grup Docker..."
+sudo groupadd docker
 sudo usermod -aG docker $USER
 
 # Instal berbagai alat pengembangan dan utilitas
 echo "Menginstal alat-alat pengembangan dan utilitas..."
-sudo apt install curl git wget htop tmux build-essential jq make gcc tar clang pkg-config libssl-dev ncdu protobuf-compiler npm nodejs flatpak default-jdk aptitude squid apache2-utils iptables iptables-persistent squid openssh-server docker-compose jq sed -y
+sudo apt install curl install ca-certificates git wget htop tmux build-essential jq make gcc tar clang pkg-config libssl-dev ncdu protobuf-compiler npm nodejs flatpak default-jdk aptitude squid apache2-utils iptables iptables-persistent squid openssh-server docker-compose jq sed -y
 
 # Instal Visual Studio Code melalui Snap
 echo "Menginstal Visual Studio Code..."
