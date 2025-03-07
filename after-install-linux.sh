@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -e  # Menghentikan skrip jika ada perintah yang gagal
 
 # Update dan upgrade sistem
 echo "Memperbarui dan mengupgrade sistem..."
@@ -24,9 +24,8 @@ sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io -y
 
 # Mengunduh versi terbaru Docker Compose dari GitHub API
+echo "Mengunduh Docker Compose..."
 VER=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)
-
-# Mengunduh Docker Compose binary
 curl -L "https://github.com/docker/compose/releases/download/$VER/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 # Memberikan izin eksekusi pada binary Docker Compose
@@ -89,7 +88,7 @@ CONDA_PATH=$(find $HOME -type d -name "anaconda3" -o -name "miniconda3" 2>/dev/n
 if [[ -n $CONDA_PATH ]]; then
     echo "Menemukan Conda di: $CONDA_PATH"
     echo ". $CONDA_PATH/etc/profile.d/conda.sh" >> ~/.bashrc
-    source ~/.bashrc
+    source ~/.bashrc  # Load ~/.bashrc untuk menerapkan perubahan PATH
     echo "Conda telah ditambahkan ke PATH."
 else
     echo "Conda tidak ditemukan di sistem."
@@ -103,7 +102,7 @@ conda --version
 # Inisialisasi Conda
 echo "Menginisialisasi Conda..."
 conda init bash
-source ~/.bashrc
+source ~/.bashrc  # Load ~/.bashrc lagi untuk memastikan inisialisasi Conda berlaku
 
 # Buat lingkungan virtual Python menggunakan Conda
 echo "Membuat lingkungan virtual Python menggunakan Conda..."
@@ -117,5 +116,9 @@ conda activate myenv
 echo "Memperbarui pip di lingkungan virtual..."
 pip install --upgrade pip
 
-echo "Update & Upgrade Done serta menginstal alat-alat pengembangan dan utilitas selesai."
-echo "Instalasi Anaconda selesai dan lingkungan virtual telah diaktifkan."
+echo "================================================"
+echo "Instalasi selesai!"
+echo "- Docker dan Docker Compose telah diinstal."
+echo "- Anaconda telah diinstal dan lingkungan virtual 'myenv' telah dibuat."
+echo "- Rust, Visual Studio Code, dan alat-alat pengembangan lainnya telah diinstal."
+echo "================================================"
