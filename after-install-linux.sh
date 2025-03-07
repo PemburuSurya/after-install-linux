@@ -89,7 +89,7 @@ CONDA_PATH=$(find $HOME -type d -name "anaconda3" -o -name "miniconda3" 2>/dev/n
 if [[ -n $CONDA_PATH ]]; then
     echo "Menemukan Conda di: $CONDA_PATH"
     echo ". $CONDA_PATH/etc/profile.d/conda.sh" >> ~/.bashrc
-    source ~/.bashrc  # Load ~/.bashrc untuk menerapkan perubahan PATH
+    source ~/.bashrc
     echo "Conda telah ditambahkan ke PATH."
 else
     echo "Conda tidak ditemukan di sistem."
@@ -103,7 +103,15 @@ conda --version
 # Inisialisasi Conda
 echo "Menginisialisasi Conda..."
 conda init bash
-source ~/.bashrc  # Load ~/.bashrc lagi untuk memastikan inisialisasi Conda berlaku
+source ~/.bashrc
+
+# Install pip menggunakan Conda
+echo "Menginstal pip menggunakan Conda..."
+conda install pip -y
+
+# Perbarui pip
+echo "Memperbarui pip..."
+pip install --upgrade pip
 
 # Buat lingkungan virtual Python menggunakan Conda
 echo "Membuat lingkungan virtual Python menggunakan Conda..."
@@ -111,17 +119,7 @@ conda create -n myenv python=3.9 -y
 
 # Aktifkan lingkungan virtual
 echo "Mengaktifkan lingkungan virtual..."
-conda init bash
-source ~/.bashrc
 conda activate myenv
-
-# Instal pip di lingkungan virtual (jika belum terinstal)
-echo "Menginstal pip di lingkungan virtual..."
-conda install pip -y
-
-# Perbarui pip di lingkungan virtual
-echo "Memperbarui pip di lingkungan virtual..."
-pip install --upgrade pip
 
 echo "================================================"
 echo "Instalasi selesai!"
