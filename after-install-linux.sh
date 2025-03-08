@@ -38,7 +38,7 @@ sudo usermod -aG docker $USER
 
 # Instal berbagai alat pengembangan dan utilitas
 echo "Menginstal alat-alat pengembangan dan utilitas..."
-sudo apt install git wget htop tmux jq make gcc tar clang pkg-config libssl-dev ncdu protobuf-compiler npm nodejs flatpak default-jdk aptitude squid apache2-utils iptables iptables-persistent openssh-server jq sed -y
+sudo apt install git snapd wget htop tmux jq make gcc tar clang pkg-config libssl-dev ncdu protobuf-compiler npm nodejs flatpak default-jdk aptitude squid apache2-utils iptables iptables-persistent openssh-server jq sed -y
 
 # Instal Visual Studio Code melalui Snap
 echo "Menginstal Visual Studio Code..."
