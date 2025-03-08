@@ -3,8 +3,9 @@ set -e  # Menghentikan skrip jika ada perintah yang gagal
 
 # Update dan upgrade sistem
 echo "Memperbarui dan mengupgrade sistem..."
+sudo apt install git -y
 sudo apt update && sudo apt upgrade -y
-sudo apt install build-essential -y
+sudo apt install clang cmake build-essential openssl pkg-config libssl-devl -y
 
 # Instal paket yang diperlukan untuk Docker
 echo "Menginstal dependensi Docker..."
@@ -38,7 +39,7 @@ sudo usermod -aG docker $USER
 
 # Instal berbagai alat pengembangan dan utilitas
 echo "Menginstal alat-alat pengembangan dan utilitas..."
-sudo apt install git snapd wget htop tmux jq make gcc tar clang pkg-config libssl-dev ncdu protobuf-compiler npm nodejs flatpak default-jdk aptitude squid apache2-utils iptables iptables-persistent openssh-server jq sed -y
+sudo apt install snapd wget htop tmux jq make gcc tar ncdu protobuf-compiler npm nodejs flatpak default-jdk aptitude squid apache2-utils iptables iptables-persistent openssh-server jq sed -y
 
 # Instal Visual Studio Code melalui Snap
 echo "Menginstal Visual Studio Code..."
