@@ -5,7 +5,7 @@ set -e  # Menghentikan skrip jika ada perintah yang gagal
 echo "Memperbarui dan mengupgrade sistem..."
 sudo apt install git -y
 sudo apt update && sudo apt upgrade -y
-sudo apt install clang cmake build-essential openssl pkg-config libssl-devl -y
+sudo apt install clang cmake build-essential openssl pkg-config libssl-dev -y
 
 # Instal paket yang diperlukan untuk Docker
 echo "Menginstal dependensi Docker..."
