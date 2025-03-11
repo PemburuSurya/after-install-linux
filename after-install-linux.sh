@@ -65,6 +65,16 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 echo 'export PATH="$HOME/.cargo/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 
+# Hapus file resolv.conf
+sudo rm /etc/resolv.conf
+
+# Buat file resolv.conf baru dan tambahkan nameserver
+sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
+sudo bash -c 'echo "nameserver 8.8.4.4" >> /etc/resolv.conf'
+
+# Lock file resolv.conf agar tidak bisa diubah
+sudo chattr +i /etc/resolv.conf
+
 # Unduh Anaconda installer
 cd /tmp
 echo "Mengunduh Anaconda installer..."
@@ -89,7 +99,7 @@ CONDA_PATH=$(find $HOME -type d -name "anaconda3" -o -name "miniconda3" 2>/dev/n
 # Jika ditemukan, tambahkan ke ~/.bashrc
 if [[ -n $CONDA_PATH ]]; then
     echo "Menemukan Conda di: $CONDA_PATH"
-    echo ". $CONDA_PATH/etc/profile.d/conda.sh" >> ~/.bashrc
+    echo "export PATH=\"$CONDA_PATH/bin:\$PATH\"" >> ~/.bashrc
     source ~/.bashrc
     echo "Conda telah ditambahkan ke PATH."
 else
@@ -97,21 +107,26 @@ else
     exit 1
 fi
 
+# Inisialisasi Conda
+echo "Menginisialisasi Conda..."
+eval "$($CONDA_PATH/bin/conda shell.bash hook)"
+source ~/.bashrc
+
+# Perbarui Conda ke versi terbaru
+echo "Memperbarui Conda..."
+conda update -n base -c defaults conda -y
+
 # Periksa versi Conda
 echo "Memeriksa versi Conda..."
 conda --version
-
-# Inisialisasi Conda
-echo "Menginisialisasi Conda..."
-conda init bash
-source ~/.bashrc
 
 # Install pip menggunakan Conda
 echo "Menginstal pip menggunakan Conda..."
 conda install pip -y
 
-# Perbarui pip
-echo "Memperbarui pip..."
+# Perbaiki masalah pip (jika ada)
+echo "Memperbaiki masalah pip..."
+pip uninstall pyodbc -y 2>/dev/null  # Hapus pyodbc jika bermasalah
 pip install --upgrade pip
 
 # Buat lingkungan virtual Python menggunakan Conda
@@ -122,19 +137,14 @@ conda create -n myenv python=3.9 -y
 echo "Mengaktifkan lingkungan virtual..."
 conda activate myenv
 
-# Hapus file resolv.conf
-sudo rm /etc/resolv.conf
-
-# Buat file resolv.conf baru dan tambahkan nameserver
-sudo bash -c 'echo "nameserver 8.8.8.8" > /etc/resolv.conf'
-sudo bash -c 'echo "nameserver 8.8.4.4" >> /etc/resolv.conf'
-
-# Lock file resolv.conf agar tidak bisa diubah
-sudo chattr +i /etc/resolv.conf
+# Verifikasi lingkungan virtual
+echo "Verifikasi lingkungan virtual..."
+conda info --envs
 
 echo "================================================"
 echo "Instalasi selesai!"
 echo "- Docker dan Docker Compose telah diinstal."
 echo "- Anaconda telah diinstal/diperbarui dan lingkungan virtual 'myenv' telah dibuat."
 echo "- Rust, Visual Studio Code, dan alat-alat pengembangan lainnya telah diinstal."
+echo "- DNS Telah dirubah ke Google DNS."
 echo "================================================"
