@@ -58,6 +58,7 @@ sudo apt update
 echo "Mengaktifkan dan memulai netfilter-persistent..."
 sudo systemctl enable netfilter-persistent
 sudo systemctl start netfilter-persistent
+sudo ufw allow OpenSSH
 
 # Instal Rust menggunakan rustup
 echo "Menginstal Rust..."
