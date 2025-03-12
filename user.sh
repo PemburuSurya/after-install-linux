@@ -39,7 +39,7 @@ sudo usermod -aG docker $USER
 
 # Instal berbagai alat pengembangan dan utilitas
 echo "Menginstal alat-alat pengembangan dan utilitas..."
-sudo apt install snapd wget htop tmux jq make gcc tar ncdu protobuf-compiler npm nodejs flatpak default-jdk aptitude squid apache2-utils iptables iptables-persistent openssh-server jq sed -y
+sudo apt install snapd wget htop tmux jq make gcc tar ncdu protobuf-compiler npm nodejs flatpak default-jdk aptitude squid apache2-utils iptables iptables-persistent openssh-server jq sed lz4 aria2 pv -y
 
 # Instal Visual Studio Code melalui Snap
 echo "Menginstal Visual Studio Code..."
@@ -59,6 +59,17 @@ echo "Mengaktifkan dan memulai netfilter-persistent..."
 sudo systemctl enable netfilter-persistent
 sudo systemctl start netfilter-persistent
 sudo ufw allow OpenSSH
+
+#Install GO
+cd $HOME && \
+ver="1.22.0" && \
+wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz" && \
+sudo rm -rf /usr/local/go && \
+sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz" && \
+rm "go$ver.linux-amd64.tar.gz" && \
+echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile && \
+source ~/.bash_profile && \
+go version
 
 # Instal Rust menggunakan rustup
 echo "Menginstal Rust..."
