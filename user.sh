@@ -58,7 +58,6 @@ sudo apt update
 echo "Mengaktifkan dan memulai netfilter-persistent..."
 sudo systemctl enable netfilter-persistent
 sudo systemctl start netfilter-persistent
-sudo ufw allow OpenSSH
 
 #Install GO
 cd $HOME && \
