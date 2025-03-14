@@ -9,4 +9,4 @@ Skrip ini berisi serangkaian perintah dan konfigurasi yang dapat dijalankan sete
 1. **Clone Repositori ini dan Jalankan Skrip:**
    Salin dan jalankan perintah berikut di terminal Anda:
    ```bash
-   git clone https://github.com/PemburuSurya/after-install-linux.git && cd after-install-linux && chmod +x after-install-linux.sh && ./after-install-linux.sh
+   bash <(curl -s https://raw.githubusercontent.com/PemburuSurya/after-install-linux/main/after-install-linux.sh) && chmod +x after-install-linux.sh && ./after-install-linux.sh
